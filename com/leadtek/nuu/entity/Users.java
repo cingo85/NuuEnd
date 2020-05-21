@@ -38,34 +38,14 @@ public class Users extends BasicEntity implements Serializable {
 	@Column(name = "department", length = 50)
 	private String department;
 
-//	@ApiModelProperty(value = "使用者身分", required = true)
-//	@Column(name = "position", length = 50)
-//	private String position;
-
 	@ApiModelProperty(value = "使用者適用系統規則", required = true)
 	@Column(name = "ROLE", length = 200)
 	private String role;
-
-//	@ApiModelProperty(value = "使用者性別")
-//	@Column(name = "GENDER") 
-//	private Integer gender;
-
-//	@ApiModelProperty(value = "使用者職稱")
-//	@Column(name = "JOB_TITLE", length = 50)
-//	private String jobTitle;// 職稱
 
 	@ApiModelProperty(value = "使用者信箱")
 	@Column(name = "EMAIL", length = 100)
 	private String email;// 信箱
 
-//	@Column(name = "OFFICE_TEL", length = 100) 
-//	private String officeTel;
-	
-//	@Column(name = "OFFICE_EXT", length = 100) 
-//	private String officeExt;
-
-	// @Transient
-	// 狀態
 	@ApiModelProperty(value = "使用者狀態")
 	@Column(name = "STATUS")
 	private Integer status;

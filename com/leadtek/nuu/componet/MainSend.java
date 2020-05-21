@@ -28,12 +28,9 @@ import com.sun.mail.util.MailSSLSocketFactory;
 @Component
 public class MainSend {
 
-//	@Scheduled(fixedRate = 1 * 1000)
 	public void send(String account,String mailinfo,String title) throws GeneralSecurityException {
 
 		getTrust();
-		final String username = "iro";
-		final String password = "iro381021";
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -58,8 +55,6 @@ public class MainSend {
 			message.setSubject(title);
 			message.setText(mailinfo);
 
-//			Transport transport = session.getTransport("smtp");
-//			   transport.connect(host, port, username, password);
 
 			Transport.send(message);
 

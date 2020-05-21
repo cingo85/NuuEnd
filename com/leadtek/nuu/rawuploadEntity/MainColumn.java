@@ -76,9 +76,6 @@ public class MainColumn extends BasicEntity implements java.io.Serializable {
 	@Column(name = "AUTH_NAME", length = 150, unique = true)
 	private String authName;
 
-//	@ManyToOne
-//	@JoinColumn(name="main_column_columnuuid",referencedColumnName="tableuuid")
-//	private MainTable MainTable;
 
 	public String getColumnuuid() {
 		return columnuuid;

@@ -235,7 +235,7 @@ public class SchoolsynonymController {
 				}
 			} else if ("Oversea".equals(SynonymType)) {
 				try {
-					List<Oversea_syn>item=SynoymService2.saveOversea(schoolmaster);
+					List<Oversea_syn> item = SynoymService2.saveOversea(schoolmaster);
 					result.put("newvalue", item);
 					result.put("res", "存檔成功");
 				} catch (Exception e) {
@@ -488,15 +488,5 @@ public class SchoolsynonymController {
 			@RequestHeader("Authorization") String token) {
 		return CommonService.findTableByName(tableName.getTableengname());
 	}
-
-//	@ApiOperation(value = "輸出同義詞表單", notes = "輸出同義詞表單")
-//	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
-//	@ResponseStatus(HttpStatus.OK)
-//	@PostMapping(value = "/export", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	public String export(@ApiParam(required = true, value = "篩選選項") @RequestBody ColumnList ColumnList,HttpServletResponse response) throws Exception {
-//		
-//		etlService.ExportExcel(ColumnList,response);
-//		return "download excel";
-//	}
 
 }

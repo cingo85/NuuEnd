@@ -67,8 +67,6 @@ public class EtlService {
 	@Autowired
 	UsersRepository usersRepository;
 
-
-
 	String password = "nuu";
 
 	public ETlMaster findbyid(Integer id) {
@@ -428,7 +426,6 @@ public class EtlService {
 
 		String outyear = ColumnList.getAlldatayear();
 
-//			List<EtlDetail> etldbinfo = etlDetailRepository.findBycolumngroup(columngroup);
 		List<EtlDetail> etldbinfo = etlDetailRepository.findByetltable(columngroup);
 		String tablename = "";
 		for (EtlDetail item : etldbinfo) {
@@ -475,8 +472,6 @@ public class EtlService {
 
 		}
 
-		List<String> coulmus = new ArrayList<>();
-
 		List<String> defaultcolumnname = new ArrayList<>();
 
 		String lj[] = new String[20];
@@ -486,7 +481,6 @@ public class EtlService {
 		String dbsqlString = "";
 		String mainquerytable = "";
 		String whereString = "";
-		String mainkey = "";
 		List<String> mainkeyList = new ArrayList<>();
 		String mainta = "";
 		ArrayList<String> leftjoin = new ArrayList<>();
@@ -538,7 +532,6 @@ public class EtlService {
 						columnType = info.get("columnType");
 						columnname
 								.add(info.get("columnCname") + ";" + info.get("auth") + ";" + info.get("columnencode"));
-//						defaultqlString = defaultqlString.replace(lj[i - 1], lj[i]);
 
 						dbsqlString += "," + info.get("columnName") + " AS " + "'" + info.get("columnCname") + "'"
 								+ qlString;
@@ -548,19 +541,6 @@ public class EtlService {
 				}
 
 			}
-//			if (i != 0) {
-//
-//				for (String s : mainkeyList) {
-//					if (leftjoin.size() == 0) {
-//						String sdd = " left join " + item.getKey() + " on " + s + "="
-//								+ s.replace(lj[i - 1] + ".", lj[i] + ".");
-//						leftjoin.add(sdd);
-//					} else {
-//						String sdd = " AND " + s + "=" + s.replace(lj[i - 1] + ".", lj[i] + ".");
-//						leftjoin.add(sdd);
-//					}
-//				}
-//			}
 
 			qlString += dbsqlString;
 			if (!"固定帶出".equals(columnType)) {
@@ -625,12 +605,6 @@ public class EtlService {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		workbook.write(outputStream);
 
-//		FileOutputStream fOut = new FileOutputStream(outputFile);
-//		
-//		workbook.write(fOut);
-//		fOut.flush();
-//		fOut.close();
-
 		return new ByteArrayInputStream(outputStream.toByteArray());
 
 	}
@@ -653,21 +627,15 @@ public class EtlService {
 			Row row = sheet.createRow(rowNum);
 			int j = 0;
 			for (Entry<String, String> entry : itemvalue.entrySet()) {
-//				try {
-					if(sheet.getRow(0) != null) {
-						if (sheet.getRow(0).getCell(j) != null) {
-							String title = sheet.getRow(0).getCell(j).getStringCellValue();
-							if (entry.getKey().equals(title)) {
-								row.createCell(j).setCellValue(entry.getValue());
-								j += 1;
-							}
+				if (sheet.getRow(0) != null) {
+					if (sheet.getRow(0).getCell(j) != null) {
+						String title = sheet.getRow(0).getCell(j).getStringCellValue();
+						if (entry.getKey().equals(title)) {
+							row.createCell(j).setCellValue(entry.getValue());
+							j += 1;
 						}
 					}
-					
-//				}catch(NullPointerException r) {
-//					sheet.getRow(0).getCell(j);
-//				}
-				
+				}
 
 			}
 			rowNum++;
@@ -683,21 +651,6 @@ public class EtlService {
 			}
 		}
 	}
-
-//	void sendMail(String auth[], String mailinfo) throws GeneralSecurityException {
-//		for (String item : auth) {
-//			List<Users> usitem = usersRepository.findByrole(item);
-//			for (Users sendmain : usitem) {
-//				MainSend sendpa = new MainSend();
-//				sendpa.send(sendmain.getAccount(), mailinfo);
-//			}
-//			List<Users> useraccount = usersRepository.findByrole("倉儲資料管理者");
-//			for (Users us : useraccount) {
-//				MainSend sendpa = new MainSend();
-//				sendpa.send(us.getAccount(), mailinfo);
-//			}
-//		}
-//	}
 
 	public void saveetldetail(List<Map<String, Object>> savemap) {
 		for (Map<String, Object> seitem : savemap) {
@@ -754,9 +707,6 @@ public class EtlService {
 			throws SQLException, UnsupportedEncodingException {
 		List<LinkedHashMap<String, String>> obj = new ArrayList<LinkedHashMap<String, String>>();
 
-		String url = "jdbc:mysql://203.64.173.61:3306/nuu?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8";
-		String user = "Leadtek";
-		String pass = "Leadtek21191";
 		ResultSet rs = null;
 		Connection con = null;
 		Statement stmt = null;
@@ -765,14 +715,14 @@ public class EtlService {
 
 			con = DriverManager.getConnection(url, user, pass);
 			long startQueryTime = System.nanoTime();
-			
+
 			stmt = con.createStatement();
 			stmt.execute(sql);
 			rs = stmt.getResultSet();
 			long endQueryTime = System.nanoTime();
-			System.out.println("結束查詢時間 : " + (endQueryTime-startQueryTime)/1000000000  + "seconds");
+			System.out.println("結束查詢時間 : " + (endQueryTime - startQueryTime) / 1000000000 + "seconds");
 			long rsnext = System.nanoTime();
-		
+
 			while (rs.next()) {
 
 				LinkedHashMap<String, String> temp = new LinkedHashMap<>();
@@ -808,7 +758,7 @@ public class EtlService {
 
 			}
 			long rsnextend = System.nanoTime();
-			System.out.println("rsnext結束資料處裡時間 : " +  (rsnextend-rsnext)/1000000000  + "seconds");
+			System.out.println("rsnext結束資料處裡時間 : " + (rsnextend - rsnext) / 1000000000 + "seconds");
 			rs.last();
 		} catch (ClassNotFoundException ex) {
 

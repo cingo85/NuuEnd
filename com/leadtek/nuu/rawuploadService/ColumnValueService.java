@@ -147,14 +147,6 @@ public class ColumnValueService {
 				setv.setColumnvalue(result.toString());
 				mvr.save(setv);
 
-//					
-//					
-////					UUID valueuuid = UUID.randomUUID();
-////					String coluuidsave = valueuuid.toString();
-////					coluuidsave = coluuidsave.toUpperCase();
-////					itemm.setTotalrow(itemm.getTotalrow() + 1);
-////					setv.setValueuuid(coluuidsave);
-//				}
 			}
 		} else {// 新增
 			JSONObject result = new JSONObject(jsontemp);
@@ -171,21 +163,6 @@ public class ColumnValueService {
 			maintable.save(itemm);
 
 		}
-
-//		JSONObject result = new JSONObject(jsontemp);
-//
-//		setv.setTablename(value.getTablename());
-//		setv.setTableuuid(tableuuid);
-//		setv.setColumnpkvalue(pkcode);
-//		setv.setColumnvalue(result.toString());
-//
-//		mvr.save(setv);
-//
-//		
-//		Date now = new Date();
-//		
-//		itemm.setLastchange(now);
-//		maintable.save(itemm);
 
 		if (("1").equals(itemm.getIschange())) {
 			List<Users> useraccount = usersRepository.findByrole("倉儲資料管理者");
@@ -264,16 +241,12 @@ public class ColumnValueService {
 		String patterndc = "^[0-9]{4}/[0-9]{2}/[0-9]{2}$";
 		pageable = pageable(pageno, pagesize, sort);
 
-//		Specification<NuuColumnValue> spec = buildFilters(filter, value);
-
 		for (Map<String, String> item : filter) {
 			columnName = item.get("name");
 			columnvalue = item.get("text");
 		}
 
-//		Page<NuuColumnValue> item = mvr.findByTableuuid(spec,pageable,value);
 		Page<NuuColumnValue> item = mvr.findByTableuuid(value, pageable);
-//		List<NuuColumnValue> item = mvr.findByTableuuid(value);
 
 		String password = "nuu";
 		if (item.getSize() > 0 && item != null) {
@@ -323,7 +296,6 @@ public class ColumnValueService {
 										}
 									}
 
-//									temt.put(decodeitem.getColumnename(), temp);
 								}
 
 							}
@@ -461,11 +433,6 @@ public class ColumnValueService {
 
 				}
 
-//				if(!StringUtils.isEmpty(tableuuid)) {
-//					Predicate authName = criteriaBuilder.equal(root.get("tableuuid"), tableuuid);
-//					predicate.add(authName);
-//				}
-
 				Predicate[] predicates = new Predicate[predicate.size()];
 
 				return criteriaBuilder.and(predicate.toArray(predicates));
@@ -487,12 +454,6 @@ public class ColumnValueService {
 		public int compare(Map<String, String> m1, Map<String, String> m2) {
 
 			return (m2.get(namevalue).compareTo(m1.get(namevalue)));
-//			Integer v1 = Integer.valueOf(m1.get(namevalue).toString());
-//			Integer v2 = Integer.valueOf(m2.get(namevalue).toString());
-//			if (v2 != null) {
-//				return v2.compareTo(v1);
-//			}
-//			return 0;
 		}
 
 	}

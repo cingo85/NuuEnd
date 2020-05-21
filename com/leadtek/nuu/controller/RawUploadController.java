@@ -88,16 +88,6 @@ public class RawUploadController {
 		return result;
 	}
 
-//	@ApiOperation(value = "新增表單", notes = "這是一個一對多的關係tableuuid不用填")
-//	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
-//	@ResponseStatus(HttpStatus.OK)
-//	@PostMapping(value = "/inserttable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	public List<MainTable> getSynoymExcel(@RequestBody MainTable item) throws Exception {
-//
-////		mts.save(item);
-//
-//		return mts.findall();
-//	}
 
 	@ApiOperation(value = "修改表單", notes = "送入uuid跟version")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
@@ -114,14 +104,13 @@ public class RawUploadController {
 	@ResponseStatus(HttpStatus.OK)
 	@PostMapping(value = "/queryalltable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Page<MainTable> queryalltable(@RequestHeader("Authorization") String token,@RequestBody Map<String, Object> itemqu) throws Exception {
-//		@RequestHeader("Authorization") String token
 
 		TokenParsing tp = new TokenParsing();
 
 		Map<String, String> tokenparse = tp.result(token);
 
 		String user = tokenparse.get("user");
-		//String user = "411test01";
+
 
 		Integer pageno = 0;
 		Integer pagesize = 0;
@@ -135,7 +124,6 @@ public class RawUploadController {
 		
 		
 		Page<MainTable> table = null;
-//		Set<MainTable> result = new HashSet<>();
 
 		Users useritem = usersRepository.findByAccount(user);
 
@@ -260,12 +248,9 @@ public class RawUploadController {
 
 		String json = (String) item.get("columnvalue");
 		String change = URLDecoder.decode(json, "UTF-8");
-//		String id = (String) item.get("id");
 		String valueuuid = (String) item.get("valueuuid");
 		String tableuuid = (String) item.get("tableuuid");
-//		String columnpkvalue = (String) item.get("columnpkvalue");
 
-//		setv.setColumnpkvalue(columnpkvalue);
 		setv.setValueuuid(valueuuid);
 		setv.setTableuuid(tableuuid);
 		setv.setColumnvalue(change);

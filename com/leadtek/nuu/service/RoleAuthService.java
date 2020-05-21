@@ -77,7 +77,6 @@ public class RoleAuthService {
 				if (users.getRole() != null) {
 
 				}
-//					users.setRoleName( roleAuthRepository.findById(users.getRole()).get().getAuthName() );
 			}
 		}
 	}
@@ -95,7 +94,7 @@ public class RoleAuthService {
 	}
 
 	public Iterable<RoleAuth> findAll() {
-		
+
 		Iterable<RoleAuth> itme = roleAuthRepository.findAll();
 		return itme;
 	}

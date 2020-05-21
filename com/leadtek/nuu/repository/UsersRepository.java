@@ -17,6 +17,5 @@ public interface UsersRepository extends PagingAndSortingRepository<Users, Strin
 
 	
 	List<Users> findByrole(String rolename);
-//	public Users findByEmail(String email);
 	
 }

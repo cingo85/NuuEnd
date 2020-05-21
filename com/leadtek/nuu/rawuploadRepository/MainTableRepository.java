@@ -19,8 +19,6 @@ public interface MainTableRepository extends JpaRepository<MainTable, String>,
 
 	Page<MainTable> findAll(Pageable pageable);
 
-//	@Query(value="SELECT * FROM nuu.maintable b where b.authName like %:authName% AND :tablename = :value" ,nativeQuery=true,countQuery = "SELECT count(*) FROM nuu.maintable")
-//	Page<MainTable> findByauthNameLike(@Param("authName") String authName, Pageable pageable ,Specification<MainTable> spec);
 
 	Page<MainTable> findAll(Specification<MainTable> spec,Pageable pageable);
 

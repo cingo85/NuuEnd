@@ -72,7 +72,7 @@ public class UsersController {
 
 		pw.println("<script> " + "window.onload=function(){" + "if(window.localStorage){"
 				+ "document.cookie=\"leadtektoken=" + result + ";path=/\";"
-				+ "window.location.href = 'http://ir.nuu.edu.tw:9018/#/ETLPlatform';" + "}else{"
+				+ "window.location.href = '';" + "}else{"
 				+ "alert('NOT SUPPORT');" + "}}" + "</script>");
 
 	}

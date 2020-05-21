@@ -81,20 +81,6 @@ public class UsersService {
 		return usersRepository.findAll(pageable);
 	}
 
-//	public Page<Users> findAll(UsersForm form, Pageable pageable) {
-//		
-//		QUsers s = QUsers.users;
-//		BooleanBuilder builder = new BooleanBuilder(); 
-//		if( StringUtils.isNotEmpty( form.getUserName() ))
-//			builder.and(s.userName.eq( form.getUserName() ));
-//		
-//		if( StringUtils.isNotEmpty( form.getName() ) )
-//			builder.and(s.name.like("%" + form.getName() + "%" ));
-//		
-//		Page<Users> page = usersRepository.findAll(builder, pageable);
-//		return page;
-//	}
-
 	public Optional<Users> findById(String id) {
 		return usersRepository.findById(id);
 	}
@@ -131,59 +117,6 @@ public class UsersService {
 		usersRepository.deleteAll();
 	}
 
-//	public Users findByUserName(String userName) {
-//		return usersRepository.findByUserName(userName);
-//	}
-//
-//	public Users findByEmail(String email) {
-//		return usersRepository.findByEmail(email);
-//	}
-
-//	public UserSec loginUserName(String userName) {
-//		Users users = usersRepository.findByUserName(userName);
-//		if( users != null){
-//			List<GrantedAuthority> authSet = new ArrayList<GrantedAuthority>();  
-//			authSet.add(new SimpleGrantedAuthority("ROLE_USER"));
-//			authSet.add(new SimpleGrantedAuthority("ROLE_HOME"));
-//			RoleAuth roleAuth = roleAuthRepository.findById( StringUtils.defaultString(users.getRole()) ).orElse(null);
-//			if( roleAuth != null ){
-//				for( String auth : roleAuth.getAuth() ){
-//					authSet.add(new SimpleGrantedAuthority("ROLE_" + auth));
-//				} 
-//			}
-//			UserSec userSec = new UserSec(users.getUserName(), users.getPassword(), BooleanUtils.toBoolean(users.getStatus()) , authSet, users.getName() );
-//			return userSec;
-//		}
-//		return null;
-//	}
-
-//	public Users securityByUser(){
-//		Authentication userDetails = SecurityContextHolder.getContext().getAuthentication();
-//		if( userDetails != null )
-//			return usersRepository.findByUserName(userDetails.getName()) ;
-//		return null; 
-//	}
-
-//	public boolean hasRole(String role) {
-//		RoleAuth roleAuth = roleAuthRepository.findById( securityByUser().getRole() ).orElse(null);
-//	    if( StringUtils.isNotEmpty( roleAuth.getAuths() ) ){
-//	    	for( String r : roleAuth.getAuths().split(",") ){
-//	    		if( r.equals(role)) return true;
-//	    	}
-//	    }
-//	    return false;
-//	}
-
-//	public boolean check(String newPassword, String hisPassword) {
-//		if( !StringUtils.isEmpty( hisPassword ) ) {
-//			for( String oldpass : hisPassword.split("@-@")) {
-//				if( new BCryptPasswordEncoder().matches(newPassword, oldpass ) )
-//					return false;
-//			}
-//		}
-//		return true;
-//    }
-
 	public String convertArrayToString(String newPassword, String hisPassword) {
 		List<String> join = new ArrayList<String>();
 		if (!StringUtils.isEmpty(hisPassword)) {
@@ -199,18 +132,6 @@ public class UsersService {
 		return String.join("@-@", join.toArray(new String[0]));
 	}
 
-//	public Map<String, Object> findByAccountNametEST(String accout, String pass) {
-//		JwtToken jjwt = new JwtToken();
-//		String token = jjwt.generateToken(accout, pass, "測試用", "測試權限", null, null);
-//
-//		Map<String, Object> mapresult = new LinkedHashMap<>();
-//		mapresult.put("statusCode", "200");
-//
-//		mapresult.put("token", token);
-//
-//		return mapresult;
-//
-//	}
 
 	public String findByAccountName(@NonNull String token) throws Exception {
 
@@ -243,46 +164,6 @@ public class UsersService {
 		JwtToken jjwt = new JwtToken();
 		String restoken = jjwt.generateToken(trans64(account), trans64(name), trans64(roleitem),
 				Utils.arrayToString(trans64array(roleauth)), null, null);
-
-//		Map<String, Object> mapresult = new LinkedHashMap<>();
-//		if (checkSSO) {
-//
-////			Users result = usersRepository.findByAccount(accountName);
-//
-//			if (true) {
-//
-////				String roles = result.getRole();
-////
-////				List<RoleAuth> roleitem = roleAuthRepository.findByAuthName(roles);
-////
-////				String rolename = "";
-////				String auths = "";
-//
-////				for (RoleAuth item : roleitem) {
-////					rolename = item.getAuthName();
-////					auths = item.getAuths();
-////				}
-//
-////				JwtToken jjwt = new JwtToken();
-////				String userId = accountName;
-////
-////				String token = jjwt.generateToken(userId, roles, rolename, auths, null, null);
-//
-//				mapresult.put("statusCode", "200");
-//
-//				mapresult.put("token", token);
-//
-//			} else {
-//				mapresult.put("statusCode", "403");
-//				mapresult.put("reason", "Undefined User");
-//			}
-//
-//			return mapresult;
-//		} else {
-//			mapresult.put("statusCode", "403");
-//			mapresult.put("reason", "SSO Auth Fail");
-//			return mapresult;
-//		}
 		return restoken;
 
 	}
@@ -293,7 +174,6 @@ public class UsersService {
 		parma.put("system_name", systemName);
 		parma.put("token", token);
 
-		String url = "https://sso.nuu.edu.tw/api/checkToken.php";
 		JSONObject temp = post(url, parma);
 
 		return temp;
@@ -302,7 +182,6 @@ public class UsersService {
 	public JSONObject logout(String account) throws Exception {
 		Map<String, String> parma = new LinkedHashMap<>();
 		parma.put("account", account);
-		String url = "https://sso.nuu.edu.tw/api/logout.php";
 		JSONObject temp = logoutpost(url, parma);
 		return temp;
 	}
@@ -397,8 +276,6 @@ public class UsersService {
 		connection.header("Content-Type", "multipart/form-data");
 		connection.header("Accept", "*/*");
 		connection.header("Host", "sso.nuu.edu.tw");
-//		connection.requestBody(json);
-//		connection.header("Content-Type", "text/html; charset=UTF-8");
 		connection.ignoreHttpErrors(true);
 		connection.ignoreContentType(true);
 

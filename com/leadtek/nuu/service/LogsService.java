@@ -15,11 +15,9 @@ import org.springframework.stereotype.Service;
 import com.leadtek.nuu.entity.Logs;
 import com.leadtek.nuu.repository.LogsRepository;
 
-
-
 @Service
 public class LogsService {
-	
+
 	@Autowired
 	LogsRepository logsRepository;
 
@@ -30,18 +28,16 @@ public class LogsService {
 	public Iterable<Logs> findAll(Sort sort) {
 		return logsRepository.findAll(sort);
 	}
-	
-	public Page<Logs> findAll(Integer pageno, Integer pagesize, List<Map<String, String>> sort){
-		
+
+	public Page<Logs> findAll(Integer pageno, Integer pagesize, List<Map<String, String>> sort) {
+
 		Pageable pageable = null;
-//		for (Map<String, String> item : sort) {
-			pageable = pageable(pageno, pagesize, sort);
-//		}
+		pageable = pageable(pageno, pagesize, sort);
 
 		Page<Logs> item = logsRepository.findAll(pageable);
-		
+
 		return item;
-		
+
 	}
 
 	public <S extends Logs> Iterable<S> saveAll(Iterable<S> entities) {
@@ -87,19 +83,18 @@ public class LogsService {
 	public void deleteAll() {
 		logsRepository.deleteAll();
 	}
-	
+
 	public Pageable pageable(Integer pageno, Integer pagesize, List<Map<String, String>> item) {
 		Pageable pageable = null;
-		
+
 		String ordervalue = "";
 		String namevalue = "";
-		
-		for(Map<String, String> obj:item) {
+
+		for (Map<String, String> obj : item) {
 			ordervalue = obj.get("order");
 			namevalue = obj.get("name");
 		}
-		
-		
+
 		if (item != null) {
 			if ("asc".equals(ordervalue)) {
 				Sort sortitem = new Sort(Direction.ASC, namevalue);
@@ -114,7 +109,5 @@ public class LogsService {
 
 		return pageable;
 	}
-	
-	
-	
+
 }

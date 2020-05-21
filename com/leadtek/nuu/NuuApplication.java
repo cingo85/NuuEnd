@@ -20,10 +20,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableConfigurationProperties({
 	FileProperties.class
 })
-public class DemoApplication extends SpringBootServletInitializer {
+public class NuuApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(NuuApplication.class, args);
 	}
 
 }

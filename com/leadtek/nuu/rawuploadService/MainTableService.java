@@ -69,9 +69,6 @@ public class MainTableService {
 	@Autowired
 	LogsRepository logsRepository;
 
-//	@Autowired
-//	MongoTemplate mongoTemplate;
-
 	@Autowired
 	UsersRepository usersRepository;
 
@@ -131,24 +128,6 @@ public class MainTableService {
 		return item;
 	}
 
-//	public Page<MainTable> findall(Integer pageno, Integer pagesize, List<Map<String, String>> sort,String role,
-//			List<Map<String, String>> filters) {
-//
-//		String columnName = "";
-//		String value = "";
-//
-//		for (Map<String, String> item : filters) {
-//			columnName = item.get("name");
-//			value = item.get("text");
-//		}
-//		Specification<MainTable> spec = buildFilters(filters, role);
-//		Pageable pageable = null;
-//		pageable = pageable(pageno, pagesize, sort);
-//		Page<MainTable> item = maintable.findAll(spec,pageable);
-//
-//		return item;
-//	}
-
 	public MainTable findByTableuuid(String tableuuid) {
 		MainTable item = maintable.findByTableuuid(tableuuid);
 		if (item.getTotalrow() == null) {
@@ -157,10 +136,10 @@ public class MainTableService {
 		return item;
 	}
 
-	public Map<String, Object> batchImport(String fileName, MultipartFile file) {
-//		if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$")) {
-//			throw new Exception("上傳文件格式不正確");
-//		}
+	public Map<String, Object> batchImport(String fileName, MultipartFile file) throws Exception {
+		if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$")) {
+			throw new Exception("上傳文件格式不正確");
+		}
 		Map<String, Object> result = new LinkedHashMap<>();
 
 		try {
@@ -189,7 +168,7 @@ public class MainTableService {
 					if (transToString(row, 1) != null) {
 						tablename = transToString(row, 1).getStringCellValue();
 					}
-					
+
 					if (temp.get(tablecode + ";" + tablename) == null) {
 						temp.put(tablecode + ";" + tablename, new ArrayList<MainColumn>());
 						MainColumn item = new MainColumn();
@@ -236,7 +215,7 @@ public class MainTableService {
 						if (transToString(row, 4) != null) {
 							item.setDatatype(transToString(row, 4).getStringCellValue());
 						}
-						
+
 						if (transToString(row, 7) != null) {
 							item.setPk(transToString(row, 7).getStringCellValue());
 						}
@@ -309,7 +288,6 @@ public class MainTableService {
 		if (!fileName.matches("^.+\\.(?i)(xls)$") && !fileName.matches("^.+\\.(?i)(xlsx)$")) {
 
 		}
-//		Map<String, Object> result = new LinkedHashMap<>();
 		MainTable item = maintable.findByTableuuid(tableuuid);
 		Integer totalrow = item.getTotalrow();
 		try {
@@ -351,20 +329,6 @@ public class MainTableService {
 					}
 				}
 
-//				for (MainColumn transcoluuid : collist) {
-//					if (!"指定".equals(transcoluuid.getNote()) && !"指定下拉".equals(transcoluuid.getNote())
-//							&& !"空白欄位".equals(transcoluuid.getNote())
-//							&& !"LicenseID自動代入1".equals(transcoluuid.getNote())
-//							&& !"ExchangeSchool下拉階層代入".equals(transcoluuid.getNote())
-//							&& !"LicenseID自動代入2".equals(transcoluuid.getNote())
-//							&& !"LicenseID下拉".equals(transcoluuid.getNote())
-//							&& !"LicenseID自動代入3".equals(transcoluuid.getNote())
-//							&& !"ExchangeCollege階層代入".equals(transcoluuid.getNote())
-//							&& !"ExchangeSchool階層代入".equals(transcoluuid.getNote())) {
-//						dbcolname.add(transcoluuid.getColumncname());
-//					}
-//
-//				}
 
 				for (MainColumn transcoluuid : collist) {
 					if ("".equals(transcoluuid.getNote()) || null == transcoluuid.getNote()) {
@@ -382,7 +346,7 @@ public class MainTableService {
 						if (!dbcolname.get(col).equals(uploadcolname.get(col))) {
 							dbcolname.get(col);
 							uploadcolname.get(col);
-							where.add("資料庫欄位為:"+dbcolname.get(col)+";"+"上傳欄位為"+uploadcolname.get(col));
+							where.add("資料庫欄位為:" + dbcolname.get(col) + ";" + "上傳欄位為" + uploadcolname.get(col));
 							System.out.println(dbcolname.get(col));
 							System.out.println(uploadcolname.get(col));
 							canienter = false;
@@ -490,7 +454,7 @@ public class MainTableService {
 															}
 
 														}
-														
+
 														if ("YYYY-MM-DD HH:MM"
 																.equals(transcoluuid.getDateinputformat())) {
 															String rawdate = transToString(row, k).getStringCellValue();
@@ -526,7 +490,7 @@ public class MainTableService {
 
 											} catch (NumberFormatException e) {
 												date = transDate(row, k).getStringCellValue().replace(" ", "");
-											}catch(ArrayIndexOutOfBoundsException e) {
+											} catch (ArrayIndexOutOfBoundsException e) {
 												date = transDate(row, k).getStringCellValue().replace(" ", "");
 												date = formatExcelDate(Integer.valueOf(date));
 											}
@@ -720,8 +684,8 @@ public class MainTableService {
 					// 寄信
 
 				} else {
-					for(String s :where) {
-						resultmessage = s;						
+					for (String s : where) {
+						resultmessage = s;
 					}
 				}
 			}

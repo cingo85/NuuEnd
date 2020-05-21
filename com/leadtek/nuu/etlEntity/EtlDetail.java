@@ -60,18 +60,6 @@ public class EtlDetail extends BasicEntity implements java.io.Serializable {
 	@ApiModelProperty(value = "管理單位", required = true)
 	@Column(name = "authName")
 	public String authName;
-//	
-//	@ApiModelProperty(value = "來源欄位", required = true)
-//	@Column(name = "sourcecolumn")
-//	private String sourcecolumn;
-//	
-//	@ApiModelProperty(value = "計算說明", required = true)
-//	@Column(name = "calnote")
-//	private String calnote;
-//	
-//	@ApiModelProperty(value = "資料庫欄位型態", required = true)
-//	@Column(name = "columntype")
-//	private String columntype;
 
 	public int getId() {
 		return id;

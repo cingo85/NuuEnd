@@ -41,7 +41,7 @@ public class RoleAuthController {
 
 	@Autowired
 	RoleAuthService roleAuthService;
-	
+
 	@Autowired
 	LogsService logsService;
 
@@ -52,8 +52,7 @@ public class RoleAuthController {
 	public Iterable<UnitManage> roleAuth(@RequestHeader("Authorization") String token) {
 		return roleAuthService.findAllUM();
 	}
-	
-	
+
 	@ApiOperation(value = "查找所有單位", notes = "查找所有單位")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
 	@ResponseStatus(HttpStatus.OK)
@@ -61,32 +60,30 @@ public class RoleAuthController {
 	public Iterable<RoleAuth> find(@RequestHeader("Authorization") String token) {
 		return roleAuthService.findAll();
 	}
-	
+
 	@ApiOperation(value = "查找所有記錄檔", notes = "查找所有記錄檔")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
 	@ResponseStatus(HttpStatus.OK)
 	@PostMapping("/log/find")
-	public Iterable<Logs> findLog(@RequestHeader("Authorization") String token,@RequestBody Map<String, Object> item) {
-		
-		
+	public Iterable<Logs> findLog(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> item) {
+
 		Integer pageno = 0;
 		Integer pagesize = 0;
 		List<Map<String, String>> sort = null;
-		Map<String,Object> qu = (Map<String,Object>)item.get("queryParams");
+		Map<String, Object> qu = (Map<String, Object>) item.get("queryParams");
 		pageno = (Integer) qu.get("page");
 		pagesize = (Integer) qu.get("per_page");
-		sort = (List<Map<String,String>>)qu.get("sort");
-		
-		
-		
-		return logsService.findAll(pageno-1,pagesize,sort);
+		sort = (List<Map<String, String>>) qu.get("sort");
+
+		return logsService.findAll(pageno - 1, pagesize, sort);
 	}
-	
+
 	@ApiOperation(value = "查找指定單位", notes = "查找指定單位")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
 	@ResponseStatus(HttpStatus.OK)
 	@PostMapping("/roleAuth/findone")
-	public List<RoleAuth> findOne(@ApiParam(required = true, value = "細項") @RequestBody RoleAuth roleAuth,@RequestHeader("Authorization") String token) {
+	public List<RoleAuth> findOne(@ApiParam(required = true, value = "細項") @RequestBody RoleAuth roleAuth,
+			@RequestHeader("Authorization") String token) {
 		return roleAuthService.findById(roleAuth.getCode());
 	}
 
@@ -94,65 +91,19 @@ public class RoleAuthController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
 	@ResponseStatus(HttpStatus.OK)
 	@PostMapping("/roleAuth/save")
-	RoleAuth save(@ApiParam(required = true, value = "細項") @RequestBody RoleAuth roleAuth,@RequestHeader("Authorization") String token) {
+	RoleAuth save(@ApiParam(required = true, value = "細項") @RequestBody RoleAuth roleAuth,
+			@RequestHeader("Authorization") String token) {
 		roleAuth.setCreationDate(new Date());
 		return roleAuthService.save(roleAuth);
 	}
-	
+
 	@ApiOperation(value = "刪除單位", notes = "code,version必填")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
 	@ResponseStatus(HttpStatus.OK)
 	@PostMapping("/roleAuth/delete")
-	Iterable<RoleAuth> delete(@ApiParam(required = true, value = "細項") @RequestBody RoleAuth roleAuth,@RequestHeader("Authorization") String token) {
+	Iterable<RoleAuth> delete(@ApiParam(required = true, value = "細項") @RequestBody RoleAuth roleAuth,
+			@RequestHeader("Authorization") String token) {
 		roleAuthService.delete(roleAuth);
 		return roleAuthService.findAll();
 	}
-	
-	
-	
-	
-	
-//	
-//	
-//	@PostMapping("/roleAuth/find")
-//	@PreAuthorize("hasAnyRole('roleAuth')")
-//	@ResponseBody Map<String, Object> find(BasicFilterForm form, ModelMap model) {
-//		Pageable pageable = PageRequest.of( form.getPage(), form.getLength() );
-//		Map<String, Object> json = new HashMap<String, Object>();	
-//		Page<RoleAuth> page = roleAuthService.findAll(pageable);  
-//		json.put("draw", form.getDraw()  ); 
-//		json.put("recordsTotal", page.getTotalElements() ); 
-//		json.put("recordsFiltered", page.getTotalElements() ); 
-//		json.put("data", page.iterator() );
-//		return json;  
-//    }
-//	
-//	@GetMapping("/roleAuth/form")
-//	@PreAuthorize("hasAnyRole('roleAuth')")
-//	public String form(ModelMap model) {
-//		RoleAuth roleAuthForm = new RoleAuth();
-//		model.addAttribute("roleAuthForm",roleAuthForm  );
-//		return "/roleAuth/form";
-//	} 
-//	
-
-//	
-//	@GetMapping("/roleAuth/{id}/get")
-//	@PreAuthorize("hasAnyRole('roleAuth')")
-//	public String get(@PathVariable String id, ModelMap model) {
-//		RoleAuth roleAuth = roleAuthService.findById(id).orElse(null);
-//		model.addAttribute("roleAuthForm",roleAuth  );
-//		return "/roleAuth/update"; 
-//	} 
-//	
-//	@PostMapping("/roleAuth/update")
-//	@PreAuthorize("hasAnyRole('roleAuth')")
-//	@ResponseBody RoleAuth update(RoleAuth roleAuth ) {
-//		RoleAuth entity = roleAuthService.findById(roleAuth.getCode()).orElse(null);
-//		roleAuth.setCode(entity.getCode());
-//		roleAuth.setCreationDate( entity.getCreationDate() );
-//		roleAuth.setModifyDate(new Date());
-//		roleAuth.setVersion(entity.getVersion());
-//		return roleAuthService.save(roleAuth);
-//    }
 }
