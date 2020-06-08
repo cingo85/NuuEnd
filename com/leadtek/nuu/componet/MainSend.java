@@ -31,6 +31,8 @@ public class MainSend {
 	public void send(String account,String mailinfo,String title) throws GeneralSecurityException {
 
 		getTrust();
+		final String username = "iro";
+		final String password = "iro381021";
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");

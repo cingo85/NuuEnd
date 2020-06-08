@@ -1,5 +1,8 @@
 package com.leadtek.nuu.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,6 +48,7 @@ import com.leadtek.nuu.schoolsynoymEntity.Transschool_syn;
 import com.leadtek.nuu.schoolsynoymEntity.licensetype_syn;
 import com.leadtek.nuu.schoolsynoymService.AppException;
 import com.leadtek.nuu.schoolsynoymService.CommonService;
+import com.leadtek.nuu.schoolsynoymService.DownloadService;
 import com.leadtek.nuu.schoolsynoymService.SynoymService;
 import com.leadtek.nuu.schoolsynoymService.SynoymService2;
 
@@ -52,6 +58,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.NonNull;
+import reactor.netty.http.server.HttpServerRequest;
 
 @Api(tags = "學校同義詞模組")
 @RestController
@@ -71,6 +78,9 @@ public class SchoolsynonymController {
 
 	@Autowired
 	EtlService etlService;
+	
+	@Autowired
+	DownloadService downloadservice;
 
 	@ApiOperation(value = "查詢所有同義詞", notes = "查詢所有同義詞")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
@@ -487,6 +497,39 @@ public class SchoolsynonymController {
 	public List<CommonUse> queryColumn(@RequestBody @NonNull CommonUse tableName,
 			@RequestHeader("Authorization") String token) {
 		return CommonService.findTableByName(tableName.getTableengname());
+	}
+
+	@ApiOperation(value = "下載同義詞表單", notes = "下載同義詞表單")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
+	@ResponseStatus(HttpStatus.OK)
+	@PostMapping(value = "/downloadSchoolSynoymMaster", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public void downloadSchoolSynoymMaster(@RequestBody @NonNull Map<String, String> SynonymType,
+			HttpServletResponse response, HttpServerRequest req, @RequestHeader("Authorization") String token) throws Exception {
+		String SynonymType_S = SynonymType.get("SynonymType");
+
+
+		response.setContentType("application/octet-stream");
+		response.setCharacterEncoding("UTF-8");
+		response.setHeader("Content-Disposition", "attachment; filename=Output.xlsx");
+		ByteArrayInputStream stream = null;
+		if("Schoolsynonym".equals(SynonymType_S)) {
+			stream = downloadservice.exportSchool();			
+		} else if ("GraSurveysynonym".equals(SynonymType_S)) {
+			stream = downloadservice.exportGraSurvey();
+		} else if ("Enrolltype".equals(SynonymType_S)) {
+			stream = downloadservice.exportEnrollyear();
+		} else if ("Suspend".equals(SynonymType_S)) {
+			stream = downloadservice.exportSuspend();
+		} else if ("Oversea".equals(SynonymType_S)) {
+			stream = downloadservice.exportOversea();
+		} else if ("Dropstu".equals(SynonymType_S)) {
+			stream = downloadservice.exportDropstu();
+		}else if ("Language".equals(SynonymType_S)) {
+			stream = downloadservice.exportLanguage();
+		}
+
+		IOUtils.copy(stream, response.getOutputStream());
+
 	}
 
 }

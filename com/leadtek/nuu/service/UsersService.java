@@ -174,6 +174,7 @@ public class UsersService {
 		parma.put("system_name", systemName);
 		parma.put("token", token);
 
+		String url = "https://sso.nuu.edu.tw/api/checkToken.php";
 		JSONObject temp = post(url, parma);
 
 		return temp;
@@ -182,6 +183,7 @@ public class UsersService {
 	public JSONObject logout(String account) throws Exception {
 		Map<String, String> parma = new LinkedHashMap<>();
 		parma.put("account", account);
+		String url = "https://sso.nuu.edu.tw/api/logout.php";
 		JSONObject temp = logoutpost(url, parma);
 		return temp;
 	}
@@ -276,6 +278,8 @@ public class UsersService {
 		connection.header("Content-Type", "multipart/form-data");
 		connection.header("Accept", "*/*");
 		connection.header("Host", "sso.nuu.edu.tw");
+//		connection.requestBody(json);
+//		connection.header("Content-Type", "text/html; charset=UTF-8");
 		connection.ignoreHttpErrors(true);
 		connection.ignoreContentType(true);
 

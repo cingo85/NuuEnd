@@ -331,7 +331,7 @@ public class MainTableService {
 
 
 				for (MainColumn transcoluuid : collist) {
-					if ("".equals(transcoluuid.getNote()) || null == transcoluuid.getNote()) {
+					if ("".equals(transcoluuid.getNote()) || null == transcoluuid.getNote() || !("指定").equals(transcoluuid.getNote())) {
 						dbcolname.add(transcoluuid.getColumncname());
 					}
 				}

@@ -44,6 +44,7 @@ import com.leadtek.nuu.rawuploadEntity.NuuColumnValue;
 import com.leadtek.nuu.rawuploadRepository.MainColumnRepository;
 import com.leadtek.nuu.rawuploadRepository.MainTableRepository;
 import com.leadtek.nuu.rawuploadRepository.NuuColumnValueRepository;
+import com.leadtek.nuu.rawuploadRepository.NuuColumnValueSp;
 import com.leadtek.nuu.repository.LogsRepository;
 import com.leadtek.nuu.repository.UsersRepository;
 import com.leadtek.nuu.service.utils.EncrypAES;
@@ -224,7 +225,6 @@ public class ColumnValueService {
 	public Map<String, Object> queryalldata(String value, Integer pageno, Integer pagesize,
 			List<Map<String, String>> sort, List<Map<String, String>> filter) throws NumberFormatException {
 
-//		, Integer pageno, Integer pagesize, List<Map<String, String>> sort
 
 		Map<String, Object> finresult = new HashMap<String, Object>();
 
@@ -245,8 +245,8 @@ public class ColumnValueService {
 			columnName = item.get("name");
 			columnvalue = item.get("text");
 		}
-
-		Page<NuuColumnValue> item = mvr.findByTableuuid(value, pageable);
+		NuuColumnValueSp fi = new NuuColumnValueSp(filter);
+		Page<NuuColumnValue> item = mvr.findByTableuuid(pageable,value);
 
 		String password = "nuu";
 		if (item.getSize() > 0 && item != null) {

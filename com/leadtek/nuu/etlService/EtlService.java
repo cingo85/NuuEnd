@@ -234,7 +234,7 @@ public class EtlService {
 	public ByteArrayInputStream contactListToExcelFileByJoin(List<ColumnList> ColumnList, String role)
 			throws SQLException, IOException {
 
-		Workbook workbook = new SXSSFWorkbook(1000); // 建立檔案
+		Workbook workbook = new SXSSFWorkbook(1000000); // 建立檔案
 		Sheet sheet = workbook.createSheet("表單");// 建立工作表
 
 		Map<String, List<Map<String, String>>> outputInfo = new LinkedHashMap<>();
@@ -553,7 +553,13 @@ public class EtlService {
 					i += 1;
 				}
 
+			}else {
+				dbsqlString = defaultqlString;
+				mainquerytable = " FROM " + tablename;
 			}
+			
+			
+			
 			if ("stuscore".equals(tablename)) {
 				mainquerytable += "_" + "course" + "_" + outyear;
 			}
@@ -707,6 +713,9 @@ public class EtlService {
 			throws SQLException, UnsupportedEncodingException {
 		List<LinkedHashMap<String, String>> obj = new ArrayList<LinkedHashMap<String, String>>();
 
+		String url = "jdbc:mysql://203.64.173.61:3306/nuu?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8";
+		String user = "Leadtek";
+		String pass = "Leadtek21191";
 		ResultSet rs = null;
 		Connection con = null;
 		Statement stmt = null;
